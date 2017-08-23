@@ -1,49 +1,108 @@
-function extend(old: {}, value: {}) : {} {
-    const keys = Object.getOwnPropertyNames(value);
-    keys.forEach((key: string) => {
-        old[key] = value[key];
-    });
+import extend from './extend';
 
-    return old;
+export interface IDefaultParams {
+    defaultParams: object;
 }
 
-export default class Component {
+export abstract class BEMPRIV implements IDefaultParams {
     private static readonly MODS_KEY: string = 'mods';
+    private static readonly MIX_KEY: string = 'mix';
+    private static readonly ATTRS_KEY: string = 'attrs';
+    private static readonly PARAMS_KEY: string = 'js';
+    private static readonly CONTENT_KEY: string = 'content';
 
-    private bemjson: {};
+    private _bemjson: object;
 
     constructor() {
-        this.bemjson = {};
+        this._bemjson = {
+            block: this.block,
+            js: this.defaultParams
+        };
     }
 
-    public get mods() : {} {
-        return this._getMods();
+    public get block() {
+        return (<any>this).constructor.name.toLowerCase();
     }
 
-    public set mods(mods: {}) {
-        extend(this._getMods(), mods);
+    public abstract get defaultParams() : object;
+
+    public get json() : object {
+        return this._bemjson;
     }
 
-    public hasMod(name: string, value?: string) : boolean {
-        let mods = this.mods;
-        let modVal = mods[name];
+    public get mods() : object {
+        return this._getProp(BEMPRIV.MODS_KEY);
+    }
 
-        if (!mods.hasOwnProperty(name)) {
-            return false;
+    public set mods(mods: object) {
+        this._bemjson[BEMPRIV.MODS_KEY] = mods;
+    }
+
+    public addMods(mods: object) : void {
+        this._extendProp(BEMPRIV.MODS_KEY, mods);
+    }
+
+    public get mix() : object | [object] {
+        return this._getProp(BEMPRIV.MIX_KEY);
+    }
+
+    public set mix(mix: object | [object]) {
+        this._bemjson[BEMPRIV.MIX_KEY] = mix;
+    }
+
+    public addMix(mix: object | [object]) : void {
+        let currentMix = this._getProp(BEMPRIV.MIX_KEY);
+
+        if (Array.isArray(mix)) {
+            currentMix = (currentMix as [object]).concat(mix);
+        } else {
+            (currentMix as [object]).push(mix);
         }
 
-        if (value === null) {
-            return Boolean(mods[name]);
-        }
-
-        return Boolean(modVal === value);
+        this._bemjson[BEMPRIV.MIX_KEY] = currentMix;
     }
 
-    private _getMods() : {} {
-        if (!this.bemjson[Component.MODS_KEY]) {
-            this.bemjson[Component.MODS_KEY] = {};
+    public get attrs() : object {
+        return this._getProp(BEMPRIV.ATTRS_KEY);
+    }
+
+    public set attrs(attrs: object) {
+        this._bemjson[BEMPRIV.ATTRS_KEY] = attrs;
+    }
+
+    public addAttrs(attrs: object) : void {
+        this._extendProp(BEMPRIV.ATTRS_KEY, attrs);
+    }
+
+    public get params() : object {
+        return this._getProp(BEMPRIV.PARAMS_KEY);
+    }
+
+    public set params(params: object) {
+        this._extendProp(BEMPRIV.PARAMS_KEY, params);
+    }
+
+    public get content() : object | [object] {
+        return this._getProp(BEMPRIV.CONTENT_KEY);
+    }
+
+    public set content(content: object | [object]) {
+        this._bemjson[BEMPRIV.CONTENT_KEY] = content;
+    }
+
+    public addProps(props: object) : void {
+        extend(this._bemjson, props);
+    }
+
+    private _getProp(key: string) : object | [object] {
+        if (!this._bemjson[key]) {
+            this._bemjson[key] = key === BEMPRIV.MIX_KEY ? [] : {};
         }
 
-        return this.bemjson[Component.MODS_KEY];
+        return this._bemjson[key];
+    }
+
+    private _extendProp(key: string, value: object) : void {
+        extend(this._getProp(key), value);
     }
 }

@@ -3,3 +3,14 @@
 .DS_Store
 node_modules
 dist
+npm-debug.log
+
+test/src
+test/test
+test/**/*.js
+test/**/*.d.ts
+
+!test/webpack.config.js
+
+src/**/*.js
+src/**/*.d.ts

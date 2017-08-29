@@ -71,15 +71,15 @@ describe('bem-priv-component', () => {
             constructor() {
                 super();
 
-                this.content = {
+                this.content = [{
                     "test": 2
-                };
+                }];
             }
         }
 
         const myComp = new MyComp();
 
-        assert.strictEqual(myComp.content['test'], 2);
+        assert.strictEqual(myComp.content[0]['test'], 2);
     });
 
     it('mix get and set must work correctly', () => {

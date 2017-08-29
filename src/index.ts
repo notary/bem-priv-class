@@ -42,19 +42,19 @@ export abstract class Block extends Composition implements IDefaultParams {
         this._extendProp(Block.MODS_KEY, mods);
     }
 
-    public get mix() : object | [object] {
+    public get mix() : object | object[] {
         return this._getProp(Block.MIX_KEY);
     }
 
-    public set mix(mix: object | [object]) {
+    public set mix(mix: object | object[]) {
         this._bemjson[Block.MIX_KEY] = mix;
     }
 
-    public addMix(mix: object | [object]) : void {
+    public addMix(mix: object | object[]) : void {
         let currentMix = this._getProp(Block.MIX_KEY);
 
         if (Array.isArray(mix)) {
-            currentMix = (currentMix as [object]).concat(mix);
+            currentMix = (currentMix as object[]).concat(mix);
         } else {
             (currentMix as [object]).push(mix);
         }
@@ -82,11 +82,11 @@ export abstract class Block extends Composition implements IDefaultParams {
         this._extendProp(Block.PARAMS_KEY, params);
     }
 
-    public get content() : object | [object] {
-        return this._getProp(Block.CONTENT_KEY);
+    public get content() : object[] {
+        return <object[]>this._getProp(Block.CONTENT_KEY);
     }
 
-    public set content(content: object | [object]) {
+    public set content(content: object[]) {
         this._bemjson[Block.CONTENT_KEY] = content;
     }
 
@@ -94,9 +94,9 @@ export abstract class Block extends Composition implements IDefaultParams {
         extend(this._bemjson, props);
     }
 
-    private _getProp(key: string) : object | [object] {
+    private _getProp(key: string) : object | object[] {
         if (!this._bemjson[key]) {
-            this._bemjson[key] = key === Block.MIX_KEY ? [] : {};
+            this._bemjson[key] = key === Block.MIX_KEY || key === Block.CONTENT_KEY ? [] : {};
         }
 
         return this._bemjson[key];

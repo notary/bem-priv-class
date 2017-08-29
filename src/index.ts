@@ -1,19 +1,20 @@
 import extend from './extend';
+import {Composition} from './Composition';
 
 export interface IDefaultParams {
     defaultParams: object;
 }
 
-export abstract class Block implements IDefaultParams {
+export abstract class Block extends Composition implements IDefaultParams {
     private static readonly MODS_KEY: string = 'mods';
     private static readonly MIX_KEY: string = 'mix';
     private static readonly ATTRS_KEY: string = 'attrs';
     private static readonly PARAMS_KEY: string = 'js';
     private static readonly CONTENT_KEY: string = 'content';
 
-    private _bemjson: object;
-
     constructor(params?: object) {
+        super();
+
         this._bemjson = extend({
             block: this.block
         }, this.defaultParams);
@@ -28,10 +29,6 @@ export abstract class Block implements IDefaultParams {
     }
 
     public abstract get defaultParams() : object;
-
-    public get json() : object {
-        return this._bemjson;
-    }
 
     public get mods() : object {
         return this._getProp(Block.MODS_KEY);

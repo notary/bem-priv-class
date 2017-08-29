@@ -30,8 +30,8 @@ describe('bem-priv-component', () => {
                 return {};
             };
 
-            constructor() {
-                super();
+            prepareBemJson() {
+                super.prepareBemJson();
 
                 this.mix = [{block: 'test'}, {block: 'test2'}];
                 this.params = {
@@ -40,9 +40,8 @@ describe('bem-priv-component', () => {
                         testData: 50
                     }
                 };
-                this.mods = {
-                    test: true
-                };
+
+                this.mods['test'] = true;
             }
         }
 

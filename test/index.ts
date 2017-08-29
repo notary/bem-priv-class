@@ -1,9 +1,9 @@
-import {BEMPRIV} from '../src/index';
+import {Block} from '../src/index';
 import {assert} from 'chai';
 
 describe('bem-priv-component', () => {
     it('mods get and set must work correctly', () => {
-        class MyComp extends BEMPRIV {
+        class MyComp extends Block {
             public get defaultParams(): object {
                 return {};
             };
@@ -23,7 +23,7 @@ describe('bem-priv-component', () => {
     });
 
     it('attrs get and set must work correctly', () => {
-        class MyComp extends BEMPRIV {
+        class MyComp extends Block {
             public get defaultParams(): object {
                 return {};
             };
@@ -43,7 +43,7 @@ describe('bem-priv-component', () => {
     });
 
     it('params get and set must work correctly', () => {
-        class MyComp extends BEMPRIV {
+        class MyComp extends Block {
             public get defaultParams(): object {
                 return {};
             };
@@ -63,7 +63,7 @@ describe('bem-priv-component', () => {
     });
 
     it('content get and set must work correctly', () => {
-        class MyComp extends BEMPRIV {
+        class MyComp extends Block {
             public get defaultParams(): object {
                 return {};
             };
@@ -85,7 +85,7 @@ describe('bem-priv-component', () => {
     it('mix get and set must work correctly', () => {
         const mix = [{block: 'a'}, {block: 'b'}];
 
-        class MyComp extends BEMPRIV {
+        class MyComp extends Block {
             public get defaultParams(): object {
                 return {};
             };
@@ -103,7 +103,7 @@ describe('bem-priv-component', () => {
     });
 
     it('addMods must work correctly', () => {
-        class MyComp extends BEMPRIV {
+        class MyComp extends Block {
             public get defaultParams(): object {
                 return {};
             };
@@ -127,7 +127,7 @@ describe('bem-priv-component', () => {
     });
 
     it('addAttrs must work correctly', () => {
-        class MyComp extends BEMPRIV {
+        class MyComp extends Block {
             public get defaultParams(): object {
                 return {};
             };
@@ -155,7 +155,7 @@ describe('bem-priv-component', () => {
         const addedMix = [{test: 50}];
         const addedMix2 = {test2: 60};
 
-        class MyComp extends BEMPRIV {
+        class MyComp extends Block {
             public get defaultParams(): object {
                 return {};
             };
@@ -176,7 +176,7 @@ describe('bem-priv-component', () => {
     });
 
     it('json is return correct bemjson', () => {
-        class MyComp extends BEMPRIV {
+        class MyComp extends Block {
             public get defaultParams(): object {
                 return {};
             };

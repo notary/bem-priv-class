@@ -1,27 +1,25 @@
 ///<reference path="../src/composition.ts"/>
 import {Block} from '../src/index';
-import {Composition, IBemJson} from '../src/composition';
 import {assert} from 'chai';
 import BlockName from '../src/blockName';
 
 describe('bem-priv-component', () => {
     it('json is return correct bemjson', () => {
-        class Composition1 extends Composition {
-            prepareBemJson(): void {
-                this._bemjson['mods'].composition1Mods = 'yes';
+        class Composition1 extends Block {
+            public json(): object {
+                this.mods['composition1Mods'] = 'yes';
+                return this._bemjson;
             }
         }
 
         @BlockName('testComposition')
         class Composition2 extends Block {
-            public get defaultParams(): object {
-                return {};
-            };
-
-            prepareBemJson(): void {
+            public json(): object {
                 this.content.push({
                     block: this.block
                 });
+
+                return this._bemjson;
             }
         }
 
@@ -30,8 +28,8 @@ describe('bem-priv-component', () => {
                 return {};
             };
 
-            prepareBemJson() {
-                super.prepareBemJson();
+            public json(): object {
+                super.json();
 
                 this.mix = [{block: 'test'}, {block: 'test2'}];
                 this.params = {
@@ -42,6 +40,8 @@ describe('bem-priv-component', () => {
                 };
 
                 this.mods['test'] = true;
+
+                return this._bemjson;
             }
         }
 
@@ -55,7 +55,7 @@ describe('bem-priv-component', () => {
             prop3: 3
         });
 
-        assert.deepEqual(myComp.json, {
+        assert.deepEqual(myComp.json(), {
             block: 'mycomp',
             mix: [{block: 'test'}, {block: 'test2'}],
             js: {

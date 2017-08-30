@@ -1,6 +1,6 @@
 export interface IBemJson {
-    prepareBemJson(): void;
-    json: object;
+    json(): object;
+    bemjson: object;
 }
 
 export abstract class Composition implements IBemJson {
@@ -12,25 +12,22 @@ export abstract class Composition implements IBemJson {
         this._bemjson = {};
     }
 
-    public prepareBemJson() {
-        if (!this.compositions.length) return;
+    public json() : object {
+        if (this.compositions.length) {
+            this.compositions.forEach((composition) => {
+                return composition.json();
+            });
+        }
 
-        this.compositions.forEach((composition) => {
-            composition.prepareBemJson()
-        });
-    }
-
-    public get json() : object {
-        this.prepareBemJson();
         return this._bemjson;
     }
 
-    public set json(bemjson: object) {
+    public set bemjson(bemjson: object) {
         this._bemjson = bemjson;
     }
 
     addComposition<T extends IBemJson>(block: T) {
-        block.json = this.json;
+        block.bemjson = this._bemjson;
         this.compositions.push(block);
     }
 }

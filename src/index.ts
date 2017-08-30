@@ -28,7 +28,9 @@ export abstract class Block extends Composition implements IDefaultParams {
         return (<any>this).constructor.name.toLowerCase();
     }
 
-    public abstract get defaultParams() : object;
+    public get defaultParams() : object {
+        return {};
+    }
 
     public get mods() : object {
         return this._getProp(Block.MODS_KEY);

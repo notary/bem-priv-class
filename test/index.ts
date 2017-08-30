@@ -205,7 +205,7 @@ describe('bem-priv-component', () => {
             prop3: 3
         });
 
-        assert.deepEqual(myComp.json, {
+        assert.deepEqual(myComp.json(), {
             block: 'mycomp',
             mix: [{block: 'test'}, {block: 'test2'}],
             js: {

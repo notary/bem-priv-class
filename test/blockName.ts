@@ -34,7 +34,7 @@ describe('blockName()', () => {
             prop3: 3
         });
 
-        assert.deepEqual(myComp.json, {
+        assert.deepEqual(myComp.json(), {
             block: 'component',
             mix: [{block: 'test'}, {block: 'test2'}],
             js: {
@@ -51,6 +51,6 @@ describe('blockName()', () => {
             prop3: 3
         });
 
-        assert.strictEqual(myComp.json['block'], 'component');
+        assert.strictEqual(myComp.json()['block'], 'component');
     });
 });

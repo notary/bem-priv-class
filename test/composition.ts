@@ -8,6 +8,9 @@ describe('composition', () => {
         class Composition1 extends Block {
             public json(): object {
                 this.mods['composition1Mods'] = 'yes';
+                this.content.push({
+                    block: this.block
+                });
                 return this._bemjson;
             }
         }
@@ -65,6 +68,9 @@ describe('composition', () => {
                 }
             },
             content: [
+                {
+                    block: 'composition1'
+                },
                 {
                     block: 'testComposition'
                 }

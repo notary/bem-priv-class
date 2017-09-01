@@ -3,7 +3,7 @@ import {Block} from '../src/index';
 import {assert} from 'chai';
 import BlockName from '../src/blockName';
 
-describe('bem-priv-component', () => {
+describe('composition', () => {
     it('json is return correct bemjson', () => {
         class Composition1 extends Block {
             public json(): object {

@@ -1,4 +1,3 @@
-import extend from './extend';
 import {Composition} from './Composition';
 
 export interface IDefaultParams {
@@ -15,12 +14,12 @@ export abstract class Block extends Composition implements IDefaultParams {
     constructor(params?: object) {
         super();
 
-        this._bemjson = extend({
+        this._bemjson = Object.assign({
             block: this.block
         }, this.defaultParams);
 
         if (params) {
-            this._bemjson = extend(this._bemjson, params);
+            this._bemjson = Object.assign(this._bemjson, params);
         }
     }
 
@@ -93,7 +92,7 @@ export abstract class Block extends Composition implements IDefaultParams {
     }
 
     public addProps(props: object) : void {
-        extend(this._bemjson, props);
+        Object.assign(this._bemjson, props);
     }
 
     private _getProp(key: string) : object | object[] {
@@ -105,6 +104,6 @@ export abstract class Block extends Composition implements IDefaultParams {
     }
 
     private _extendProp(key: string, value: object) : void {
-        extend(this._getProp(key), value);
+        Object.assign(this._getProp(key), value);
     }
 }

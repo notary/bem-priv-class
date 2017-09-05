@@ -1,7 +1,7 @@
 import {Block} from '../src/index';
 import {assert} from 'chai';
 
-describe('bem-priv-component', () => {
+describe('bem-priv-block', () => {
     it('mods get and set must work correctly', () => {
         class MyComp extends Block {
             public get defaultParams(): object {

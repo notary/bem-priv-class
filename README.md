@@ -1,3 +1,3 @@
-# bem-priv-component
+# bem-priv-class
 
-Components for declare bemjson
+Class for declare block

@@ -17,10 +17,6 @@ export abstract class Block extends Composition implements IDefaultParams {
         this._bemjson = Object.assign({
             block: this.block
         }, this.defaultParams);
-
-        if (params) {
-            this._bemjson = Object.assign(this._bemjson, params);
-        }
     }
 
     public get block() {

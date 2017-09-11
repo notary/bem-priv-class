@@ -12,8 +12,11 @@
   "devDependencies": {
     "@types/chai": "^4.0.4",
     "@types/mocha": "^2.2.42",
+    "benchmark": "^2.1.4",
     "chai": "^4.1.1",
+    "microtime": "^2.1.6",
     "mocha": "^3.5.0",
-    "typescript": "^2.4.2"
+    "typescript": "^2.4.2",
+    "bem-priv": "^2.1.0"
   }
 }

@@ -1,10 +1,10 @@
-///<reference path="../src/composition.ts"/>
-import {Block} from '../src/index';
-import {assert} from 'chai';
+import { Block } from '../src/index';
+import { assert } from 'chai';
 import BlockName from '../src/blockName';
 
 describe('composition', () => {
     it('json is return correct bemjson', () => {
+        @BlockName('composition1')
         class Composition1 extends Block {
             public json(): object {
                 this.mods['composition1Mods'] = 'yes';
@@ -27,15 +27,11 @@ describe('composition', () => {
         }
 
         class MyComp extends Block {
-            public get defaultParams(): object {
-                return {};
-            };
-
             public json(): object {
                 super.json();
 
-                this.mix = [{block: 'test'}, {block: 'test2'}];
-                this.params = {
+                this.mix = [{ block: 'test' }, { block: 'test2' }];
+                this.js = {
                     live: false,
                     data: {
                         testData: 50

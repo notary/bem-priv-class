@@ -1,20 +1,16 @@
 import BlockName from '../src/blockName';
-import {Block} from '../src/index';
-import {assert} from 'chai';
+import { Block } from '../src/index';
+import { assert } from 'chai';
 
 describe('blockName()', () => {
     it('must set block to json', () => {
         @BlockName('component')
         class MyComp extends Block {
-            public get defaultParams(): object {
-                return {};
-            };
-
             constructor() {
                 super();
 
                 this.mix = [{block: 'test'}, {block: 'test2'}];
-                this.params = {
+                this.js = {
                     live: false,
                     data: {
                         testData: 50

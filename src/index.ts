@@ -1,30 +1,30 @@
 import {Composition} from './Composition';
 
-export interface IDefaultParams {
-    defaultParams: object;
-}
-
-export abstract class Block extends Composition implements IDefaultParams {
+export abstract class Block extends Composition {
     private static readonly MODS_KEY: string = 'mods';
     private static readonly MIX_KEY: string = 'mix';
     private static readonly ATTRS_KEY: string = 'attrs';
     private static readonly PARAMS_KEY: string = 'js';
     private static readonly CONTENT_KEY: string = 'content';
 
+    protected params: object;
+
     constructor(params?: object) {
         super();
 
-        this._bemjson = Object.assign({
+        this.params = Object.assign(this.defaultParams, params);
+
+        this._bemjson = {
             block: this.block
-        }, this.defaultParams);
+        };
+    }
+
+    protected get defaultParams() : object {
+        return {};
     }
 
     public get block() {
         return (<any>this).constructor.name.toLowerCase();
-    }
-
-    public get defaultParams() : object {
-        return {};
     }
 
     public get mods() : object {
@@ -35,28 +35,12 @@ export abstract class Block extends Composition implements IDefaultParams {
         this._bemjson[Block.MODS_KEY] = mods;
     }
 
-    public addMods(mods: object) : void {
-        this._extendProp(Block.MODS_KEY, mods);
+    public get mix() : object[] {
+        return <object[]>this._getProp(Block.MIX_KEY);
     }
 
-    public get mix() : object | object[] {
-        return this._getProp(Block.MIX_KEY);
-    }
-
-    public set mix(mix: object | object[]) {
+    public set mix(mix: object[]) {
         this._bemjson[Block.MIX_KEY] = mix;
-    }
-
-    public addMix(mix: object | object[]) : void {
-        let currentMix = this._getProp(Block.MIX_KEY);
-
-        if (Array.isArray(mix)) {
-            currentMix = (currentMix as object[]).concat(mix);
-        } else {
-            (currentMix as [object]).push(mix);
-        }
-
-        this._bemjson[Block.MIX_KEY] = currentMix;
     }
 
     public get attrs() : object {
@@ -67,15 +51,11 @@ export abstract class Block extends Composition implements IDefaultParams {
         this._bemjson[Block.ATTRS_KEY] = attrs;
     }
 
-    public addAttrs(attrs: object) : void {
-        this._extendProp(Block.ATTRS_KEY, attrs);
-    }
-
-    public get params() : object {
+    public get js() : object {
         return this._getProp(Block.PARAMS_KEY);
     }
 
-    public set params(params: object) {
+    public set js(params: object) {
         this._extendProp(Block.PARAMS_KEY, params);
     }
 

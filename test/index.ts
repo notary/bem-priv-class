@@ -1,10 +1,10 @@
-import {Block} from '../src/index';
-import {assert} from 'chai';
+import { Block } from '../src/index';
+import { assert } from 'chai';
 
 describe('bem-priv-class', () => {
     it('mods get and set must work correctly', () => {
         class MyComp extends Block {
-            public get defaultParams(): object {
+            protected get defaultParams(): object {
                 return {};
             };
 
@@ -24,7 +24,7 @@ describe('bem-priv-class', () => {
 
     it('attrs get and set must work correctly', () => {
         class MyComp extends Block {
-            public get defaultParams(): object {
+            protected get defaultParams(): object {
                 return {};
             };
 
@@ -44,14 +44,14 @@ describe('bem-priv-class', () => {
 
     it('params get and set must work correctly', () => {
         class MyComp extends Block {
-            public get defaultParams(): object {
+            protected get defaultParams(): object {
                 return {};
             };
 
             constructor() {
                 super();
 
-                this.params = {
+                this.js = {
                     "test": 2
                 };
             }
@@ -59,12 +59,12 @@ describe('bem-priv-class', () => {
 
         const myComp = new MyComp();
 
-        assert.strictEqual(myComp.params['test'], 2);
+        assert.strictEqual(myComp.js['test'], 2);
     });
 
     it('content get and set must work correctly', () => {
         class MyComp extends Block {
-            public get defaultParams(): object {
+            protected get defaultParams(): object {
                 return {};
             };
 
@@ -86,7 +86,7 @@ describe('bem-priv-class', () => {
         const mix = [{block: 'a'}, {block: 'b'}];
 
         class MyComp extends Block {
-            public get defaultParams(): object {
+            protected get defaultParams(): object {
                 return {};
             };
 
@@ -104,7 +104,7 @@ describe('bem-priv-class', () => {
 
     it('addMods must work correctly', () => {
         class MyComp extends Block {
-            public get defaultParams(): object {
+            protected get defaultParams(): object {
                 return {};
             };
 
@@ -119,16 +119,12 @@ describe('bem-priv-class', () => {
 
         const myComp = new MyComp();
 
-        myComp.addMods({
-            test2: 50
-        });
-
-        assert.deepEqual(myComp.mods, {test: 2, test2: 50});
+        assert.deepEqual(myComp.mods, {test: 2});
     });
 
     it('addAttrs must work correctly', () => {
         class MyComp extends Block {
-            public get defaultParams(): object {
+            protected get defaultParams(): object {
                 return {};
             };
 
@@ -143,20 +139,16 @@ describe('bem-priv-class', () => {
 
         const myComp = new MyComp();
 
-        myComp.addAttrs({
-            test2: 50
-        });
-
-        assert.deepEqual(myComp.attrs, {test: 2, test2: 50});
+        assert.deepEqual(myComp.attrs, {test: 2});
     });
 
     it('addMix must work correctly', () => {
         const mix = [{block: 'a'}, {block: 'b'}];
-        const addedMix = [{test: 50}];
+        const addedMix = {test: 50};
         const addedMix2 = {test2: 60};
 
         class MyComp extends Block {
-            public get defaultParams(): object {
+            protected get defaultParams(): object {
                 return {};
             };
 
@@ -169,15 +161,36 @@ describe('bem-priv-class', () => {
 
         const myComp = new MyComp();
 
-        myComp.addMix(addedMix);
-        myComp.addMix(addedMix2);
+        myComp.mix.push(addedMix);
+        myComp.mix.push(addedMix2);
 
         assert.deepEqual(myComp.mix, [{block: 'a'}, {block: 'b'}, {test: 50}, {test2: 60}]);
     });
 
+    it('js must work correctly', () => {
+        const js = {
+            live: false,
+            data: {
+                testData: 50
+            }
+        };
+
+        class MyComp extends Block {
+            constructor() {
+                super();
+
+                this.js = js;
+            }
+        }
+
+        const myComp = new MyComp();
+
+        assert.deepEqual(myComp.js, js);
+    });
+
     it('json is return correct bemjson', () => {
         class MyComp extends Block {
-            public get defaultParams(): object {
+            protected get defaultParams(): object {
                 return {};
             };
 
@@ -185,7 +198,7 @@ describe('bem-priv-class', () => {
                 super();
 
                 this.mix = [{block: 'test'}, {block: 'test2'}];
-                this.params = {
+                this.js = {
                     live: false,
                     data: {
                         testData: 50

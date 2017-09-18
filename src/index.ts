@@ -1,4 +1,6 @@
 import { Behavior } from './behavior';
+import { Composition, ICompositioin } from './composition';
+import mixin from './mixin';
 
 export abstract class Block extends Behavior {
     private static readonly MODS_KEY: string = 'mods';
@@ -82,10 +84,14 @@ export abstract class Block extends Behavior {
     private _extendProp(key: string, value: object) : void {
         Object.assign(this._getProp(key), value);
     }
+}
 
-    static createBlock<T extends Block>(BlockImpl: new (args?: object) => T, params?: object, ...compositions: Composition[]) {
+export abstract class ComplexBlock extends Block {
+    static createBlock<T extends ICompositioin>(BlockImpl: new (args?: object) => T, params?: object, ...compositions: ICompositioin[]) {
         const block = new BlockImpl(params);
         block.addCompositions(compositions);
         return block;
     }
 }
+
+mixin(ComplexBlock, Composition);

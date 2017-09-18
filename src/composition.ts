@@ -1,15 +1,13 @@
-export interface IBemJson {
-    json(): object;
+import { IBemJson } from './behavior'
+
+export interface ICompositioin {
+    addComposition<T extends IBemJson>(block: T);
+    addCompositions<T extends IBemJson>(blocks: T[]);
+    nestedJson() : object;
 }
 
 export abstract class Composition implements IBemJson {
     private compositions: IBemJson[];
-    protected _bemjson: object;
-
-    constructor() {
-        this.compositions = [];
-        this._bemjson = {};
-    }
 
     public json() : object {
         if (this.compositions.length) {
@@ -18,10 +16,10 @@ export abstract class Composition implements IBemJson {
             });
         }
 
+        super.json();
+
         return this._bemjson;
     }
-
-    public abstract get content() : object[]
 
     addComposition<T extends IBemJson>(block: T) {
         this.compositions.push(block);

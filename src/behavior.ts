@@ -8,7 +8,7 @@ export interface IBehavior {
 
 export type BehaviorBlock = IBehavior & IBemJson;
 
-export abstract class Behavior implements IBehavior{
+export abstract class Behavior implements IBehavior, IBemJson {
     private behaviors: BehaviorBlock[] = [];
     protected _bemjson: object = {};
 
@@ -26,8 +26,9 @@ export abstract class Behavior implements IBehavior{
         this._bemjson = bemjson;
     }
 
-    addBehavior<T extends BehaviorBlock>(block: T) {
+    addBehavior<T extends BehaviorBlock>(block: T): this {
         block.bemjson = this._bemjson;
         this.behaviors.push(block);
+        return this;
     }
 }

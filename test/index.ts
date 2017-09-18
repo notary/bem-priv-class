@@ -1,4 +1,4 @@
-import { Block } from '../src/index';
+import { Block, ComplexBlock } from '../src/index';
 import { assert } from 'chai';
 
 describe('bem-priv-class', () => {
@@ -236,15 +236,15 @@ describe('bem-priv-class', () => {
         });
     });
 
-    it.only('createBlock', () => {
-        class Block1 extends Block {
+    it('createBlock', () => {
+        class Block1 extends ComplexBlock {
 
         }
-        class Block2 extends Block {}
-        class Block3 extends Block {}
-        class Block11 extends Block {}
+        class Block2 extends ComplexBlock {}
+        class Block3 extends ComplexBlock {}
+        class Block11 extends ComplexBlock {}
 
-        class BaseBlock extends Block{
+        class BaseBlock extends ComplexBlock{
 
             public json() {
                 super.json();
@@ -254,27 +254,45 @@ describe('bem-priv-class', () => {
             }
         }
 
-        const json = Block.createBlock(
+        const json = ComplexBlock.createBlock(
             BaseBlock,
             {},
-            Block.createBlock(
+            ComplexBlock.createBlock(
                 Block2,
                 {}
             ),
-            Block.createBlock(
+            ComplexBlock.createBlock(
                 Block1,
                 {},
-                Block.createBlock(
+                ComplexBlock.createBlock(
                     Block11,
                     {}
                 )
             ),
-            Block.createBlock(
+            ComplexBlock.createBlock(
                 Block3,
                 {}
             )
         ).json();
 
-        console.log('bemjson:', JSON.stringify(json));
+        assert.deepEqual(json, {
+            block: 'baseblock',
+            content:[
+                {
+                    block: 'block2'
+                },
+                {
+                    block: 'block1',
+                    content:[
+                        {
+                            block: 'block11'
+                        }
+                    ]},
+                {
+                    block: 'block3'
+                }
+            ],
+            js:{}
+        });
     });
 });

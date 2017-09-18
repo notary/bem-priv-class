@@ -2,12 +2,12 @@ import { Block } from '../src/index';
 import { assert } from 'chai';
 import BlockName from '../src/blockName';
 
-describe('composition', () => {
+describe('Behavior', () => {
     it('json is return correct bemjson', () => {
-        @BlockName('composition1')
-        class Composition1 extends Block {
+        @BlockName('Behavior1')
+        class Behavior1 extends Block {
             public json(): object {
-                this.mods['composition1Mods'] = 'yes';
+                this.mods['behavior1Mods'] = 'yes';
                 this.content.push({
                     block: this.block
                 });
@@ -15,8 +15,8 @@ describe('composition', () => {
             }
         }
 
-        @BlockName('testComposition')
-        class Composition2 extends Block {
+        @BlockName('Behavior2')
+        class Behavior2 extends Block {
             public json(): object {
                 this.content.push({
                     block: this.block
@@ -45,8 +45,8 @@ describe('composition', () => {
         }
 
         const myComp = new MyComp();
-        myComp.addComposition(new Composition1());
-        myComp.addComposition(new Composition2());
+        myComp.addBehavior(new Behavior1());
+        myComp.addBehavior(new Behavior2());
 
         myComp.addProps({
             prop1: 1,
@@ -65,14 +65,14 @@ describe('composition', () => {
             },
             content: [
                 {
-                    block: 'composition1'
+                    block: 'Behavior1'
                 },
                 {
-                    block: 'testComposition'
+                    block: 'Behavior2'
                 }
             ],
             mods: {
-                composition1Mods: 'yes',
+                behavior1Mods: 'yes',
                 test: true
             },
             prop1: 1,

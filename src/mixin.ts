@@ -17,7 +17,7 @@ export default function mixin(target: any, ...mixins: any[]): any {
                 return;
             }
 
-            const mix = mixin[key];
+            const mix = proto[key];
             const isFunction = typeof mix === 'function';
             const isPrivate = key.startsWith('_');
             const isEnumerable = !isFunction && !isPrivate;

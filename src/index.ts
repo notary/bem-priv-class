@@ -1,6 +1,6 @@
-import {Composition} from './Composition';
+import { Behavior } from './behavior';
 
-export abstract class Block extends Composition {
+export abstract class Block extends Behavior {
     private static readonly MODS_KEY: string = 'mods';
     private static readonly MIX_KEY: string = 'mix';
     private static readonly ATTRS_KEY: string = 'attrs';

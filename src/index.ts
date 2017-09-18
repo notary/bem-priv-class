@@ -82,4 +82,10 @@ export abstract class Block extends Behavior {
     private _extendProp(key: string, value: object) : void {
         Object.assign(this._getProp(key), value);
     }
+
+    static createBlock<T extends Block>(BlockImpl: new (args?: object) => T, params?: object, ...compositions: Composition[]) {
+        const block = new BlockImpl(params);
+        block.addCompositions(compositions);
+        return block;
+    }
 }

@@ -234,5 +234,47 @@ describe('bem-priv-class', () => {
             prop2: 2,
             prop3: 3
         });
-    })
+    });
+
+    it.only('createBlock', () => {
+        class Block1 extends Block {
+
+        }
+        class Block2 extends Block {}
+        class Block3 extends Block {}
+        class Block11 extends Block {}
+
+        class BaseBlock extends Block{
+
+            public json() {
+                super.json();
+                this.js = this.params;
+
+                return this._bemjson;
+            }
+        }
+
+        const json = Block.createBlock(
+            BaseBlock,
+            {},
+            Block.createBlock(
+                Block2,
+                {}
+            ),
+            Block.createBlock(
+                Block1,
+                {},
+                Block.createBlock(
+                    Block11,
+                    {}
+                )
+            ),
+            Block.createBlock(
+                Block3,
+                {}
+            )
+        ).json();
+
+        console.log('bemjson:', JSON.stringify(json));
+    });
 });

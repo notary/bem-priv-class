@@ -1,4 +1,4 @@
-import { Behavior } from './behavior';
+import { Behavior, IBemJson } from './behavior';
 
 export abstract class Block extends Behavior {
     private static readonly MODS_KEY: string = 'mods';
@@ -81,5 +81,44 @@ export abstract class Block extends Behavior {
 
     private _extendProp(key: string, value: object) : void {
         Object.assign(this._getProp(key), value);
+    }
+}
+
+export interface IComposition extends IBemJson {
+    addComposition<T extends IBemJson>(block: T): this;
+}
+
+export abstract class ComplexBlock extends Block {
+    private compositions: IBemJson[];
+
+    constructor(params?: object) {
+        super(params);
+
+        this.compositions = [];
+    }
+
+    public json() : object {
+        if (this.compositions.length) {
+            this.compositions.forEach((composition) => {
+                this.content.push(composition.json());
+            });
+        }
+
+        super.json();
+
+        return this._bemjson;
+    }
+
+    addComposition<T extends IBemJson>(block: T): this {
+        this.compositions.push(block);
+        return this;
+    }
+
+    static createBlock<T extends IComposition>(BlockImpl: new (args?: object) => T, params?: object, ...compositions: IComposition[]) {
+        const block = new BlockImpl(params);
+        compositions.forEach((composition) => {
+            block.addComposition(composition);
+        });
+        return block;
     }
 }

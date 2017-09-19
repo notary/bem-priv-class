@@ -1,4 +1,4 @@
-import { Block } from '../src/index';
+import { Block, ComplexBlock } from '../src/index';
 import { assert } from 'chai';
 
 describe('bem-priv-class', () => {
@@ -234,5 +234,123 @@ describe('bem-priv-class', () => {
             prop2: 2,
             prop3: 3
         });
-    })
+    });
+
+    it('createBlock', () => {
+        class Block1 extends ComplexBlock {
+
+        }
+        class Block2 extends ComplexBlock {}
+        class Block3 extends ComplexBlock {}
+        class Block11 extends ComplexBlock {}
+
+        class BaseBlock extends ComplexBlock{
+
+            public json() {
+                super.json();
+                this.js = this.params;
+
+                return this._bemjson;
+            }
+        }
+
+        const json = ComplexBlock.createBlock(
+            BaseBlock,
+            {},
+            ComplexBlock.createBlock(
+                Block2,
+                {}
+            ),
+            ComplexBlock.createBlock(
+                Block1,
+                {},
+                ComplexBlock.createBlock(
+                    Block11,
+                    {}
+                )
+            ),
+            ComplexBlock.createBlock(
+                Block3,
+                {}
+            )
+        ).json();
+
+        assert.deepEqual(json, {
+            block: 'baseblock',
+            content:[
+                {
+                    block: 'block2'
+                },
+                {
+                    block: 'block1',
+                    content:[
+                        {
+                            block: 'block11'
+                        }
+                    ]},
+                {
+                    block: 'block3'
+                }
+            ],
+            js:{}
+        });
+    });
+
+    it('createBlock inside', () => {
+        class Block1 extends ComplexBlock {
+
+        }
+        class Block2 extends ComplexBlock {}
+        class Block3 extends ComplexBlock {}
+        class Block11 extends ComplexBlock {}
+
+        class BaseBlock extends ComplexBlock{
+
+            public json() {
+                super.json();
+                this.js = this.params;
+
+                this.content = [
+                  ComplexBlock.createBlock(
+                      Block2,
+                      {}
+                  ).json(),
+                  ComplexBlock.createBlock(
+                      Block1,
+                      {},
+                      ComplexBlock.createBlock(
+                          Block11,
+                          {}
+                      )
+                  ).json(),
+                  ComplexBlock.createBlock(
+                      Block3,
+                      {}
+                  ).json()
+                ];
+
+                return this._bemjson;
+            }
+        }
+
+        assert.deepEqual(new BaseBlock({}).json(), {
+            block: 'baseblock',
+            content:[
+                {
+                    block: 'block2'
+                },
+                {
+                    block: 'block1',
+                    content:[
+                        {
+                            block: 'block11'
+                        }
+                    ]},
+                {
+                    block: 'block3'
+                }
+            ],
+            js:{}
+        });
+    });
 });

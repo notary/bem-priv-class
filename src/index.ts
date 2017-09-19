@@ -91,8 +91,8 @@ export interface IComposition extends IBemJson {
 export abstract class ComplexBlock extends Block {
     private compositions: IBemJson[];
 
-    constructor() {
-        super();
+    constructor(params?: object) {
+        super(params);
 
         this.compositions = [];
     }
